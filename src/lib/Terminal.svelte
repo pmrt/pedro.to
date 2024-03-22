@@ -67,6 +67,9 @@
   <section>
     <article>
       <div
+        role="textbox"
+        aria-autocomplete="none"
+        tabindex="0"
         id="command"
         contenteditable="true"
         use:autofocus
