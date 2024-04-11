@@ -1,10 +1,12 @@
 <script lang="ts">
   import { onMount, tick, type ComponentType } from "svelte";
+  import Help from "./cmd/Help.svelte";
   import NotFound from "./cmd/NotFound.svelte";
   import Projects from "./cmd/Projects.svelte";
 
   const commandToOutput: Record<string, ComponentType | undefined> = {
     "projects": Projects,
+    "help": Help,
   }
 
   let history: string[] = [];
