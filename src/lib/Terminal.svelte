@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { tick, type ComponentType } from "svelte";
+  import { onMount, tick, type ComponentType } from "svelte";
   import NotFound from "./cmd/NotFound.svelte";
   import Projects from "./cmd/Projects.svelte";
 
@@ -38,9 +38,10 @@
         history = [...history, cmd]
         commandEl.innerHTML = "&hairsp;"
         await tick();
-        commandEl.scrollTo(0, commandEl.scrollHeight)
+        commandEl.scrollIntoView();
       }
     }
+
   }
 
   function getOutput(command: string): ComponentType {
@@ -51,11 +52,25 @@
     return comp
   }
 
+  onMount(() => {
+    const onKeyDown = (evt: KeyboardEvent) => {
+      if (!commandEl) return;
+      const isFocused = (document.activeElement === commandEl);
+      if (!isFocused) {
+        commandEl.focus();
+        commandEl.innerHTML = "&hairsp;";
+      }
+    }
 
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    }
+  })
 </script>
 
 <section>
-  <section>
+  <div>
   {#each history as entry }
     <article>
       <p>visitor@pedro.to:~$ {entry}</p>
@@ -63,7 +78,7 @@
     </article>
 
   {/each}
-  </section>
+  </div>
   <section>
     <article>
       <div
