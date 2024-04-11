@@ -27,7 +27,7 @@
       <p><span>About me</span>Hi, I’m Pedro! Full-Stack developer from Granada, Spain. Javascript by day, Golang by night. Designer hobbyist.</p>
     </article>
     <article>
-      <p><span>Projects</span>Click here or type 'projects'</p>
+      <p><span>Projects</span>Type 'projects'</p>
     </article>
     <article>
       <p><span>Contact</span>c@pedro.to</p>
