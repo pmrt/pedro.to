@@ -1,3 +1,5 @@
+import { Config } from "@netlify/functions";
+
 interface ReqBody {
   receiver_url: string
   receiver_endpoint: string
@@ -86,4 +88,8 @@ export default async (req: Request) => {
     `couldn´t send request to ${receiver_url}. http error: ${error instanceof Error ? error.message : "unknown error"}`
     )
   }
+}
+
+export const config: Config = {
+  path: "/kaisadilla/send",
 }
