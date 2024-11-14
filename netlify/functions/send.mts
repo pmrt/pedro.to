@@ -59,10 +59,13 @@ export default async (req: Request) => {
     return response400("error while reading json")
   }
 
-  const { receiver_url, receiver_endpoint } = data
+  let { receiver_url, receiver_endpoint } = data
   if (!receiver_url || !receiver_endpoint) {
     return response400("bad json body")
   }
+
+  receiver_url = decodeURIComponent(receiver_url)
+  receiver_endpoint = decodeURIComponent(receiver_endpoint)
 
   try {
     let resp = await fetch(`${receiver_url+receiver_endpoint}`, {
