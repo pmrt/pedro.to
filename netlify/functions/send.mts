@@ -60,16 +60,13 @@ export default async (req: Request) => {
   }
 
   const params = new URLSearchParams(data)
-  let [ receiver_url, receiver_endpoint ] = [params.get("receiver_url"), params.get("receiver_endpoint")]
+  const [ receiver_url, receiver_endpoint ] = [params.get("receiver_url"), params.get("receiver_endpoint")]
   if (!receiver_url || !receiver_endpoint) {
     return response400("bad json body")
   }
 
-  receiver_url = decodeURIComponent(receiver_url)
-  receiver_endpoint = decodeURIComponent(receiver_endpoint)
-
   try {
-    let resp = await fetch(`${receiver_url+receiver_endpoint}`, {
+    let resp = await fetch(receiver_url+receiver_endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +77,7 @@ export default async (req: Request) => {
     })
 
     if (!resp.ok) {
-      return response500(`bad response while sending request to ${receiver_url}. status: ${resp.status}`)
+      return response500(`bad response while sending request to ${receiver_url+receiver_endpoint}. status: ${resp.status} ${resp.statusText}`)
     }
 
     return Response.json({
@@ -90,7 +87,7 @@ export default async (req: Request) => {
       
   } catch (error) {
     return response500(
-    `couldn´t send request to ${receiver_url}. http error: ${error instanceof Error ? error.message : "unknown error"}`
+    `couldn´t send request to ${receiver_url+receiver_endpoint}. http error: ${error instanceof Error ? error.message : "unknown error"}`
     )
   }
 }
