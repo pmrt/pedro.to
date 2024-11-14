@@ -65,8 +65,9 @@ export default async (req: Request) => {
     return response400("bad json body")
   }
 
+  let resp: Response | null = null;
   try {
-    let resp = await fetch(receiver_url+receiver_endpoint, {
+    resp = await fetch(receiver_url+receiver_endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -77,7 +78,7 @@ export default async (req: Request) => {
     })
 
     if (!resp.ok) {
-      return response500(`bad response while sending request to ${receiver_url+receiver_endpoint}. status: ${resp.status} ${resp.statusText}`)
+      return response500(`failed response while sending request to ${receiver_url+receiver_endpoint}. status: ${resp.status} ${resp.statusText}`)
     }
 
     return Response.json({
@@ -86,9 +87,14 @@ export default async (req: Request) => {
     }, { status: 200 })
       
   } catch (error) {
-    return response500(
-    `couldn´t send request to ${receiver_url+receiver_endpoint}. http error: ${error instanceof Error ? error.message : "unknown error"}`
-    )
+    if (resp) {
+      return response500(
+      `couldn´t send request to ${receiver_url+receiver_endpoint}. resp: status:${resp.status} resp: ${resp.statusText}\nhttp error: ${error instanceof Error ? error.message : "unknown error"}`
+      )
+    }
+      return response500(
+      `couldn´t send request to ${receiver_url+receiver_endpoint}. http error: ${error instanceof Error ? error.message : "unknown error"}`
+      )
   }
 }
 

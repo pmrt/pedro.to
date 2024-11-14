@@ -31,7 +31,7 @@ export default async (req: Request) => {
   }
 
   return Response.json({
-    message:message, 
+    message, 
   })
 }
 
