@@ -18,14 +18,15 @@ export default async (req: Request) => {
     return response400("bad request")
   }
 
-  let data: ReqBody | null;
+  let data: string
   try {
-    data = await req.json() as ReqBody
+    data = await req.text()
   } catch (error) {
     return response400("error while reading json")
   }
 
-  const { message } = data;
+  const params = new URLSearchParams(data)
+  const message = params.get("message");
   if (!message) {
     return response400("bad json body")
   }

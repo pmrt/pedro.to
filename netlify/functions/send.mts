@@ -52,14 +52,15 @@ export default async (req: Request) => {
     return response401("invalid token")
   }
 
-  let data: ReqBody | null
+  let data: string
   try {
-    data = await req.json() as ReqBody
+    data = await req.text()
   } catch (error) {
     return response400("error while reading json")
   }
 
-  let { receiver_url, receiver_endpoint } = data
+  const params = new URLSearchParams(data)
+  let [ receiver_url, receiver_endpoint ] = [params.get("receiver_url"), params.get("receiver_endpoint")]
   if (!receiver_url || !receiver_endpoint) {
     return response400("bad json body")
   }
