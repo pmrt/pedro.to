@@ -81,6 +81,7 @@ export default async (req: Request) => {
 
     return Response.json({
       message: "message sent successfully",
+      resp: resp.json()
     }, { status: 200 })
       
   } catch (error) {
