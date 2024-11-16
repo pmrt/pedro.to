@@ -1,16 +1,8 @@
 import { Config } from "@netlify/functions";
+import { response400 } from "./common.mts";
 
 interface ReqBody {
   message: string
-}
-
-function response400(error: string): Response {
-  return Response.json({
-    message: "",
-    error,
-  }, {
-    status: 400,
-  })
 }
 
 export default async (req: Request) => {
